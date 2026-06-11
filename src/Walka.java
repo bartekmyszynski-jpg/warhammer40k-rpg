@@ -23,12 +23,17 @@ public class Walka {
                     obrazeniaBohatera = 1;
                 }
             } else if (wybor.equals("2")) {
-                obrazeniaBohatera = (bohater.getCalkowityAtak() - wrog.getObrona()) * 2;
-                if (obrazeniaBohatera < 0) {
-                    obrazeniaBohatera = 1;
+                if (bohater.getObrona() >= 10) {
+                    obrazeniaBohatera = (bohater.getCalkowityAtak() - wrog.getObrona()) * 2;
+                    if (obrazeniaBohatera < 0) {
+                        obrazeniaBohatera = 1;
+                    }
+                    bohater.setObrona(oryginalnaObrona - 10);
+                    System.out.println("Mocny atak! Twoja obrona spada do: " + bohater.getObrona());
+                } else {
+                    System.out.println("Brak wystarczających punktów obrony");
+                    continue;
                 }
-                bohater.setObrona(oryginalnaObrona - 10);
-                System.out.println("Mocny atak! Twoja obrona spada do: " + bohater.getObrona());
             } else if (wybor.equals("3")) {
                 if (bohater.getStimmPack() > 0) {
                     bohater.lecz(30);
@@ -60,11 +65,12 @@ public class Walka {
 
             bohater.otrzymajObrazenia(obrazeniaWroga);
             System.out.println(wrog.getImie() + " zadaje: " + obrazeniaWroga + ", " + bohater.getImie() + ": pozostałe życie -> " + bohater.getHp());
+
+            bohater.setObrona(oryginalnaObrona);
+
             if (!bohater.czyZyje()) {
                 break;
             }
-
-            bohater.setObrona(oryginalnaObrona);
         }
 
         if (bohater.czyZyje()) {

@@ -21,6 +21,7 @@ public class Main {
                 Walka.rozpocznijWalke(bohater, wrog, scanner);
                 if (bohater.czyZyje()) {
                         bohater.lecz(20);
+                        LootSystem.losujLoot(bohater);
                 }
                 System.out.println("Statystyki po walce: ");
                 bohater.wyswietlStatystyki();
