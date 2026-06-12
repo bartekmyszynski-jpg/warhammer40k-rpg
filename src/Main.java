@@ -22,6 +22,7 @@ public class Main {
                 if (bohater.czyZyje()) {
                         bohater.lecz(20);
                         LootSystem.losujLoot(bohater);
+                        Sklep.wejdzDoSklepu(bohater, scanner);
                 }
                 System.out.println("Statystyki po walce: ");
                 bohater.wyswietlStatystyki();

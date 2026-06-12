@@ -6,7 +6,8 @@ public class Bohater extends Postac implements Leczacy {
     private int exp;
     private int zloto;
     private int honor;
-    private HashMap<String, Integer> ekwipunek;
+    private HashMap<String, Integer> bronie;
+    private HashMap<String, Integer> zbroje;
     private ArrayList<String> zdolnosci;
     private int stimmPack;
 
@@ -16,7 +17,8 @@ public class Bohater extends Postac implements Leczacy {
         this.exp = 0;
         this.zloto = 0;
         this.honor = 50;
-        this.ekwipunek = new HashMap<>();
+        this.bronie = new HashMap<>();
+        this.zbroje = new HashMap<>();
         this.zdolnosci = new ArrayList<>();
         this.stimmPack = 4;
     }
@@ -45,6 +47,7 @@ public class Bohater extends Postac implements Leczacy {
         if (ileZlota < 0) {
             throw new IllegalArgumentException("Wartość złota nie może być dodana jako ujemna. Podano: " + ileZlota);
         }
+        System.out.println(getImie() + " zdobył " + ileZlota + " złota");
         zloto = zloto + ileZlota;
     }
 
@@ -57,7 +60,7 @@ public class Bohater extends Postac implements Leczacy {
 
     @Override
     public void akcja () {
-        System.out.println(getImie() + " wyporwadza atak.");
+        System.out.println(getImie() + " wyprowadza atak.");
     }
 
     public void wyswietlStatystyki () {
@@ -70,19 +73,31 @@ public class Bohater extends Postac implements Leczacy {
     }
 
     public void dodajBron (String nazwa, int wartoscAtaku) {
-        ekwipunek.put(nazwa, wartoscAtaku);
-        System.out.println(getImie() + " znalazł " + nazwa + " + " + wartoscAtaku + " do wartości ataku");
+        bronie.put(nazwa, wartoscAtaku);
+        System.out.println(getImie() + " dodano do Twojego ekwipunku " + nazwa + " + " + wartoscAtaku + " do wartości ataku");
+    }
+
+    public void dodajZbroje (String nazwa, int wartosObrony) {
+        zbroje.put(nazwa, wartosObrony);
+        System.out.println(getImie() + " dodano do Twojego ekwipunku " + nazwa + " + " + wartosObrony + " do wartości obrony");
+    }
+
+    public void dodajStimmPack () {
+        stimmPack++;
     }
 
 
     public void wyswietlEkwipunek() {
         System.out.println("=== Ekwipunek " + getImie() + " ===");
-        if (ekwipunek.isEmpty()) {
+        if (bronie.isEmpty() && zbroje.isEmpty()) {
             System.out.println("Brak przedmiotów");
             return;
         }
-        for (String przedmiot : ekwipunek.keySet()) {
-            System.out.println(przedmiot + " + do ataku: " + ekwipunek.get(przedmiot));
+        for (String bron : bronie.keySet()) {
+            System.out.println(bron + " + do ataku: " + bronie.get(bron));
+        }
+        for (String zbroja : zbroje.keySet()) {
+            System.out.println(zbroja + " + do obrony: " + zbroje.get(zbroja));
         }
     }
 
@@ -105,15 +120,29 @@ public class Bohater extends Postac implements Leczacy {
 
     public int getCalkowityAtak () {
         int bonus = 0;
-        for (String przedmiot : ekwipunek.keySet()) {
-            bonus = bonus + ekwipunek.get(przedmiot);
+        for (String bron : bronie.keySet()) {
+            bonus = bonus + bronie.get(bron);
         }
         return getAtak() + bonus;
     }
 
+    public int getCalkowitaObrona () {
+        int bonus = 0;
+        for (String zbroja : zbroje.keySet()) {
+            bonus = bonus + zbroje.get(zbroja);
+        }
+        return getObrona() + bonus;
+    }
+
+
+
     public void dodajZdolnosc (String nazwa) {
         zdolnosci.add(nazwa);
         System.out.println("Zdobył zdolność: " + nazwa);
+    }
+
+    public void odejmijZloto (int ileZlota) {
+        zloto = zloto - ileZlota;
     }
 
 }

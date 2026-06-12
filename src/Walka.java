@@ -7,6 +7,8 @@ public class Walka {
         System.out.println(" VS ");
         wrog.wyswietlStatystyki();
 
+        Narracja.opisWroga(wrog);
+
         while (bohater.czyZyje() && wrog.czyZyje()) {
             System.out.println("\nCo robisz, " + bohater.getImie()+ "?");
             System.out.println("1. Atak");
@@ -15,7 +17,7 @@ public class Walka {
             System.out.println("4. Ucieczka");
             System.out.println("> ");
             String wybor = scanner.nextLine();
-            int oryginalnaObrona = bohater.getObrona();
+            int oryginalnaObrona = bohater.getCalkowitaObrona();
             int obrazeniaBohatera = 0;
             if (wybor.equals("1")) {
                 obrazeniaBohatera = bohater.getCalkowityAtak() - wrog.getObrona();
@@ -58,7 +60,8 @@ public class Walka {
                 break;
             }
 
-            int obrazeniaWroga = wrog.getAtak() - bohater.getObrona();
+
+            int obrazeniaWroga = wrog.getAtak() - bohater.getCalkowitaObrona();
             if (obrazeniaWroga < 0) {
                 obrazeniaWroga = 1;
             }
@@ -74,10 +77,12 @@ public class Walka {
         }
 
         if (bohater.czyZyje()) {
+            Narracja.opisZwyciestwa(bohater, wrog);
             System.out.println("Wygrałeś!");
             bohater.dodajExp(wrog.getNagroda());
+            bohater.dodajZloto(wrog.getNagroda());
         } else {
-            System.out.println("Nie żyjesz...");
+            Narracja.opisPorazki(bohater, wrog);
         }
     }
 }
